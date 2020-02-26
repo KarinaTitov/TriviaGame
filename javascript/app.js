@@ -4,11 +4,13 @@ $(document).ready(function () {
         timeLeft: 41,
         rightAnswers: 0,
         wrongAnswers: 0,
+        unaswered: 0,
         intervalId: null,
-        userAnswers: []
-        
+        userAnswers: [],
+        questionNum: 0
 
     }
+
     // questions
     let questions = [
         {
@@ -71,7 +73,8 @@ $(document).ready(function () {
     // hide everything
     $('#questions').hide();
     $('#gameOver').hide();
-    $('#submitButton').hide();
+    $('#doneButton').hide();
+    $('#timeRemaining').hide();
 
 
     // populate user answers
@@ -92,66 +95,109 @@ $(document).ready(function () {
         for (let i = 0; i < game.userAnswers.length; i++) {
             if (game.userAnswers[i] === questions[i].answer) {
                 game.rightAnswers++
-            } else {
+            } else if (game.userAnswers[i] !== questions[i].answer) {
                 game.wrongAnswers++
             }
-        }
-
-
-    }
-// Create quiz with variants of answer
-    function createQuestions() {
-        for (let i = 0; i < questions.length; i++) {
-            let wrap = $('<div>').addClass('questions q-wrap').attr('id', 'question-' + i);
-            let question = $('<p>').addClass('q-text').text(questions[i].question);
-            let optionWrap = $('<div>').addClass('o-wrap');
-            for (let j = 0; j < questions[i].choices.length; j++) {
-                let options = questions[i].choices;
-                let radioOption = '<input type="radio" data-index="' + i + ' "class="option" id="o-' + j + '" name="question' + i + '" value="' + options[j] + '">' + options[j];
-                $(optionWrap).append(radioOption);
+            else {
+                game.unanswered++
             }
-
-            $(wrap).append(question, optionWrap);
-            displayQuestions(wrap);
         }
 
 
     }
-    function displayQuestions(wrap){
-        $('#questions').append(wrap)
+    // CReating the questions on the html page with the choices
+    function createQuestions() {
+        if (game.questionNum >= questions.length) {
+            gameOver();
+
+            return;
+        }
+
+        let currentQuestion = questions[game.questionNum];
+
+        $('#questions').text(currentQuestion.question);
+
+        for (let i = 0; i < currentQuestion.choices.length; i++) {
+            let choiceButton = $('<button>').text(currentQuestion.choices[i]);
+            choiceButton.on('click', function () {
+                let choice = $(this).text();
+                game.userAnswers.push(choice);
+                game.questionNum++
+                $('#choices').empty();
+                createQuestions();
+            })
+
+
+            $('#choices').append(choiceButton);
+
+
+        }
+        console.log(currentQuestion);
     }
 
-    // update users answer for each question on change
-    $('#questions').on('change', '.option', function(event){
-        let selectedOptionName = $(this).attr('name');
-        let userAnswer = $('input[name='+selectedOptionName+']:checked').val();
-        let index = $(this).data('index');
-        game.userAnswers.splice(index,1, userAnswer);
-    });
+
+
+
+
 
     function startTimer() {
         clearInterval(game.intervalId);
         game.intervalId = setInterval(decrement, 1000);
     }
+// function to start the Game
+    function startGame() {
+        $('#startTheGame').hide();
+        createQuestions();
+        $('#questions').show();
+        $('doneButton').show();
+        $('#timeRemaining').show();
+        startTimer();
+        decrement();
+    }
 
-function startGame(){
-    $('#startTheGame').hide();
-    createQuestions();
-    $('#questions').show();
-    $('doneButton').show();
-}
 
-startTimer();
-decrement();
+// when the User pushes Start game starts 
+    $('#startTheGame').on('click', function () {
+        startGame();
 
-$('startTheGame').on('click', function(){
-    startGame();
-})
+    })
 
-function decrement(){
-    game.timeLeft--;
-    $('#timeRemaining').html('<h3>'+ game.timeLeft)
-}
+
+// Countdown
+    function decrement() {
+        if (game.timeLeft === 0) {
+            gameOver();
+        }
+        game.timeLeft--;
+        $('#timeRemaining').html('<h3>' + game.timeLeft);
+
+
+    }
+// if User pushes Done game ends
+    $('#doneButton').on('click', gameOver);
+// function for game Over
+    function gameOver() {
+
+        clearInterval(game.intervalId);
+        game.timeLeft = 41;
+        game.questionNum = 0;
+        checkUserAnswers();
+
+        $('#questions').hide();
+        $('#choices').hide();
+        $('#rightAnswers').text(game.rightAnswers);
+        $('#wrongAnswers').text(game.wrongAnswers);
+        $('#unanswered').text(game.unanswered);
+        $('#gameOver').show();
+        $('#timeRemaining').hide();
+
+    }
+// need help to set the game back to the start game 
+    $('#playAgain').on('click', startGame);
+
+   
+    //ask if wants to play again
+
 
 
 })
