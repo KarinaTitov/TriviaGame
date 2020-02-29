@@ -118,7 +118,7 @@ $(document).ready(function () {
         $('#questions').text(currentQuestion.question);
 
         for (let i = 0; i < currentQuestion.choices.length; i++) {
-            let choiceButton = $('<button>').text(currentQuestion.choices[i]);
+            let choiceButton = $('<div>').text(currentQuestion.choices[i]);
             choiceButton.on('click', function () {
                 let choice = $(this).text();
                 game.userAnswers.push(choice);
@@ -146,11 +146,13 @@ $(document).ready(function () {
     }
 // function to start the Game
     function startGame() {
+        $('#gameOver').hide();
         $('#startTheGame').hide();
         createQuestions();
         $('#questions').show();
         $('doneButton').show();
         $('#timeRemaining').show();
+        $('#choices').show();
         startTimer();
         decrement();
     }
@@ -192,11 +194,16 @@ $(document).ready(function () {
         $('#timeRemaining').hide();
 
     }
+    
+    //ask if wants to play again
 // need help to set the game back to the start game 
-    $('#playAgain').on('click', startGame);
+    $('#playAgain').on('click', function(){
+        startGame();
+        game.userAnswers = [];
+    })
 
    
-    //ask if wants to play again
+    
 
 
 
