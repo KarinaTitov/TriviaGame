@@ -98,9 +98,6 @@ $(document).ready(function () {
             } else if (game.userAnswers[i] !== questions[i].answer) {
                 game.wrongAnswers++
             }
-            else {
-                game.unanswered++
-            }
         }
 
 
@@ -150,7 +147,7 @@ $(document).ready(function () {
         $('#startTheGame').hide();
         createQuestions();
         $('#questions').show();
-        $('doneButton').show();
+        $('#doneButton').show();
         $('#timeRemaining').show();
         $('#choices').show();
         startTimer();
@@ -171,7 +168,7 @@ $(document).ready(function () {
             gameOver();
         }
         game.timeLeft--;
-        $('#timeRemaining').html('<h3>' + game.timeLeft);
+        $('#timeRemaining').html(game.timeLeft);
 
 
     }
@@ -187,11 +184,12 @@ $(document).ready(function () {
 
         $('#questions').hide();
         $('#choices').hide();
-        $('#rightAnswers').text(game.rightAnswers);
-        $('#wrongAnswers').text(game.wrongAnswers);
-        $('#unanswered').text(game.unanswered);
+        $('#rightAnswers').text("Right Answers: " + game.rightAnswers);
+        $('#wrongAnswers').text("Wrong Answers: " + game.wrongAnswers);
+        $('#unanswered').text("Unanswered: " + game.unanswered);
         $('#gameOver').show();
         $('#timeRemaining').hide();
+        $("#doneButton").hide();
 
     }
     
@@ -200,6 +198,8 @@ $(document).ready(function () {
     $('#playAgain').on('click', function(){
         startGame();
         game.userAnswers = [];
+        game.rightAnswers = 0;
+        game.wrongAnswers = 0;
     })
 
    

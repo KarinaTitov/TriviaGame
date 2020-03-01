@@ -1,24 +1,81 @@
+body{
+    background-image: url("https://image.shutterstock.com/image-vector/quiz-banner-yellow-neon-question-260nw-1361590832.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
 .container{
-    margin: auto;
+    margin: 150px auto;
 }
-.row{
-    text-align: center;
-    margin: auto;
-}
+
 
 h1{
     width: 100%;
     font-size: 120px;
+    color: white;
     margin: auto;
+    text-align: center;
+
 }
 h2{
     margin: auto;
+    text-align: center;
     font-size: 100px;
+    color: yellow;
+}
+h3{
+    font-size: 30px;
+    color: white;
 }
 
 #startTheGame{
-    margin: auto;
+    margin: 100px auto;
     text-align: center;
+    font-size: 50px;
+font-weight: 900;
     width: 300px;
     height: 100px;
+    border: solid 2px yellow;
+}
+
+#timeRemaining{
+    margin: auto;
+text-align: center;
+    color: white;
+   font-size: 60px;
+}
+
+form{
+    text-align: center;
+    color: white;
+    
+}
+#questions{
+    font-size: 40px;
+}
+#choices{
+    text-align: center;
+    font-size: 30px;
+}
+
+#doneButton{
+    color: yellow;
+    border: solid 2px ;
+    font: bold;
+    font-size: 40px;
+    width: 200px;
+    height: 80px;
+    text-align: center;
+    margin: 20px auto;
+    padding-top: 10px;
+}
+#gameOver{
+    text-align: center;
+    margin-top: 100px;
+    font-size: 50px;
+    font-weight: bold;
+}
+#playAgain{
+    margin: 100px;
+    background-color: unset;
+    color: yellow;
 }
