@@ -2,7 +2,7 @@
  ## General Info
  
  * You have 40 seconds to answer 8 questions.
- * The game finishes when you answer all the questions or the timer is running out.
+ * The game finishes when you answer all the questions, the timer is running out or you can stop the game by clicking "DONE" button.
  * Once it happens you will be taken  to the final page, where you can see how many wrong/right answers you got.
  * You have an option to start over by pushing the button play again.
  
@@ -13,6 +13,7 @@
  * Bootsrap
  * JavaScript
  * Jquery
+ * Used timer
  
  ### Additional information
  
